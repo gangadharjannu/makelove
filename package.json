@@ -1,0 +1,16 @@
+{
+  "name": "makelove",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx serve src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gsap": "^3.6.1",
+    "winwheel": "^1.0.1"
+  }
+}

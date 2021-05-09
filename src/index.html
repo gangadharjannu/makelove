@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>HTML5 Canvas Winning Wheel</title>
+
+    <link rel="stylesheet" href="main.css" type="text/css" />
+    <script type="text/javascript" src="./TweenMax.min.js"></script>
+    <script type="text/javascript" src="./Winwheel.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>Winwheel.js example wheel - basic code wheel</h1>
+      <p>
+        Choose a power setting then press the Spin button. You will be alerted
+        to the prize won when the spinning stops.
+      </p>
+      <!-- roulette -->
+      <div width="438" height="582" class="the_wheel">
+        <canvas
+          id="canvas"
+          width="434"
+          height="434"
+          data-responsiveMinWidth="180"
+          data-responsiveScaleHeight="true"
+          data-responsiveMargin="50"
+        >
+          <p style="color: white" align="center">
+            Sorry, your browser doesn't support canvas. Please try another.
+          </p>
+        </canvas>
+        <img src="triangle.svg" height="16" width="16" class="pointer" />
+      </div>
+
+      <!-- actions -->
+      <div>
+        <!-- <label for="speed">
+          <span>Power:</span>
+          <select id="speed" onchange="powerSelected(this.value)">
+            <option value="3">High</option>
+            <option value="2">Med</option>
+            <option value="1">Low</option>
+          </select>
+        </label> -->
+        <button id="spin_button" type="button" onClick="startSpin();">
+          Spin
+        </button>
+        <button type="button" onClick="resetWheel()">Play Again (reset)</button>
+      </div>
+    </div>
+    <script>
+      // Create new wheel object specifying the parameters at creation time.
+      let theWheel = new Winwheel({
+        numSegments: 8, // Specify number of segments.
+        outerRadius: 212, // Set outer radius so wheel fits inside the background.
+        textFontSize: 28, // Set font size as desired.
+        responsive: true, // This wheel is responsive!
+        // Define segments including colour and text.
+        segments: [
+          { fillStyle: "#eae56f", text: "Prize 1" },
+          { fillStyle: "#89f26e", text: "Prize 2" },
+          { fillStyle: "#7de6ef", text: "Prize 3" },
+          { fillStyle: "#e7706f", text: "Prize 4" },
+          { fillStyle: "#eae56f", text: "Prize 5" },
+          { fillStyle: "#89f26e", text: "Prize 6" },
+          { fillStyle: "#7de6ef", text: "Prize 7" },
+          { fillStyle: "#e7706f", text: "Prize 8" },
+        ],
+        // Specify the animation to use.
+        animation: {
+          type: "spinToStop",
+          duration: 5, // Duration in seconds.
+          spins: 8, // Number of complete spins.
+          callbackFinished: alertPrize,
+        },
+      });
+
+      // Vars used by the code in this page to do power controls.
+      let wheelPower = 0;
+      let wheelSpinning = false;
+
+      // -------------------------------------------------------
+      // Function to handle the onClick on the power buttons.
+      // -------------------------------------------------------
+      function powerSelected(powerLevel) {
+        console.log(powerLevel);
+        // Ensure that power can't be changed while wheel is spinning.
+        if (wheelSpinning == false) {
+          // Set wheelPower var used when spin button is clicked.
+          wheelPower = powerLevel;
+
+          // Light up the spin button by changing it's source image and adding a clickable class to it.
+          document.getElementById("spin_button").src = "spin_on.png";
+          document.getElementById("spin_button").className = "clickable";
+        }
+      }
+
+      // -------------------------------------------------------
+      // Click handler for spin button.
+      // -------------------------------------------------------
+      function startSpin() {
+        // Ensure that spinning can't be clicked again while already running.
+        if (wheelSpinning == false) {
+          // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+          // to rotate with the duration of the animation the quicker the wheel spins.
+          if (wheelPower == 1) {
+            theWheel.animation.spins = 3;
+          } else if (wheelPower == 2) {
+            theWheel.animation.spins = 8;
+          } else if (wheelPower == 3) {
+            theWheel.animation.spins = 15;
+          }
+
+          // Disable the spin button so can't click again while wheel is spinning.
+          document.getElementById("spin_button").src = "spin_off.png";
+          document.getElementById("spin_button").className = "";
+
+          // Begin the spin animation by calling startAnimation on the wheel object.
+          theWheel.startAnimation();
+
+          // Set to true so that power can't be changed and spin button re-enabled during
+          // the current animation. The user will have to reset before spinning again.
+          wheelSpinning = true;
+        }
+      }
+
+      // -------------------------------------------------------
+      // Function for reset button.
+      // -------------------------------------------------------
+      function resetWheel() {
+        theWheel.stopAnimation(false); // Stop the animation, false as param so does not call callback function.
+        theWheel.rotationAngle = 0; // Re-set the wheel angle to 0 degrees.
+        theWheel.draw(); // Call draw to render changes to the wheel.
+
+        wheelSpinning = false; // Reset to false to power buttons and spin can be clicked again.
+      }
+
+      // -------------------------------------------------------
+      // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters
+      // note the indicated segment is passed in as a parmeter as 99% of the time you will want to know this to inform the user of their prize.
+      // -------------------------------------------------------
+      function alertPrize(indicatedSegment) {
+        console.log("alert");
+        // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
+        alert("You have won " + indicatedSegment.text);
+      }
+    </script>
+  </body>
+</html>

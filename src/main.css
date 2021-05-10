@@ -12,6 +12,7 @@ Verison History:
 
 body {
   font-family: arial;
+  padding: 5px;
 }
 
 /* Sets the background image for the wheel */
@@ -73,7 +74,6 @@ td.pw3 {
   margin-top: 20px;
   padding-top: 16px;
   position: relative;
-  text-align: center;
 }
 
 .the_wheel .pointer {
@@ -85,4 +85,14 @@ td.pw3 {
   right: 0;
   left: 0;
   margin: auto;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.text-center {
+  text-align: center;
 }

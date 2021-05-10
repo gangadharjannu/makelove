@@ -55,7 +55,7 @@
         <button id="spin_button" type="button" onClick="startSpin();">
           Spin
         </button>
-        <button type="button" onClick="resetWheel()">Play Again (reset)</button>
+        <button type="button" onClick="resetWheel()">Reset</button>
       </div>
     </div>
     <script>
@@ -110,6 +110,10 @@
       // Click handler for spin button.
       // -------------------------------------------------------
       function startSpin() {
+        // No need to click on reset again
+        // since we are calling reset wheel whenever we play
+        resetWheel();
+
         // Ensure that spinning can't be clicked again while already running.
         if (wheelSpinning == false) {
           // Based on the power level selected adjust the number of spins for the wheel, the more times is has

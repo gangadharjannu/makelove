@@ -13,11 +13,8 @@
   </head>
   <body>
     <div>
-      <h1>Winwheel.js example wheel - basic code wheel</h1>
-      <p>
-        Choose a power setting then press the Spin button. You will be alerted
-        to the prize won when the spinning stops.
-      </p>
+      <h1>makelove</h1>
+      <p>Click on play button to start roulette</p>
       <!-- To add audio use HTML5 audio tag, also give it Id so can get DOM object
       with 
       javascript to play the sound in the function called after spinning
@@ -26,11 +23,11 @@
         <source src="winbeat.mp3" />
       </audio>
       <!-- roulette -->
-      <div width="438" height="582" class="the_wheel text-center">
+      <div class="the_wheel text-center">
         <canvas
           id="canvas"
-          width="434"
-          height="434"
+          width="360"
+          height="360"
           data-responsiveMinWidth="180"
           data-responsiveScaleHeight="true"
           data-responsiveMargin="50"
@@ -62,7 +59,6 @@
       // Create new wheel object specifying the parameters at creation time.
       let theWheel = new Winwheel({
         numSegments: 8, // Specify number of segments.
-        outerRadius: 212, // Set outer radius so wheel fits inside the background.
         textFontSize: 28, // Set font size as desired.
         responsive: true, // This wheel is responsive!
         // Define segments including colour and text.
